@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Métodos para criação/exclusão/deleção/alteração do usuário no banco de dados.
+ *
+ * @author Gabriel Brocco de Oliveira
+ * @since 17/09/2024
+ */
+
 @Service
 public class UsuarioService {
 

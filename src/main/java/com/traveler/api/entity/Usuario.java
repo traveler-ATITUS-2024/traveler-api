@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
+/**
+ * @author Gabriel Brocco de Oliveira
+ * @since 17/09/2024
+ */
+
 @Entity
 @Table(name = "usuario")
 public class Usuario {

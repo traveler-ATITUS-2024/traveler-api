@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 import java.util.List;
+
+
+/**
+ * Métodos para criação/exclusão/deleção/alteração do usuário no banco de dados.
+ *
+ * @author Gabriel Brocco de Oliveira
+ * @since 17/09/2024
+ */
 
 @RestController
 @RequestMapping("/usuario")
@@ -35,6 +40,7 @@ public class UsuarioController {
         }
     }
 
+    // busca todos usuários criados no banco
     @GetMapping
     public ResponseEntity<List<Usuario>> buscarUsuarios() {
         var usuarios = usuarioService.buscarUsuarios();
@@ -42,6 +48,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    // busca um usuário específico pelo id
     @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable("usuarioId") String usuarioId) {
         var usuario = usuarioService.buscarUsuarioPorId(usuarioId);
@@ -54,6 +61,7 @@ public class UsuarioController {
 
     }
 
+    // atualiza o nome do usuário específico pelo id
     @PutMapping("/{usuarioId}")
     public ResponseEntity<Void> atualizarUsuario(@PathVariable("usuarioId") String usuarioId,
                                                     @RequestBody AtualizarUsuarioDto atualizarUsuarioDto) {
@@ -62,6 +70,7 @@ public class UsuarioController {
 
     }
 
+    // atualiza a senha do usuário específico pelo id
     @PutMapping("/{usuarioId}/senha")
     public ResponseEntity<Void> atualizarSenha(@PathVariable("usuarioId") String usuarioId,
                                                @RequestBody AtualizarSenhaDto atualizarSenhaDto) {
@@ -70,6 +79,7 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    // deleta o usuário pelo id
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable("usuarioId") String usuarioId) {
         usuarioService.deletarUsuario(usuarioId);
