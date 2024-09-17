@@ -54,7 +54,7 @@ public class UsuarioController {
 
     }
 
-    @PutMapping("/{usuarioId}/nome")
+    @PutMapping("/{usuarioId}")
     public ResponseEntity<Void> atualizarUsuario(@PathVariable("usuarioId") String usuarioId,
                                                     @RequestBody AtualizarUsuarioDto atualizarUsuarioDto) {
         usuarioService.atualizarUsuario(usuarioId, atualizarUsuarioDto);
