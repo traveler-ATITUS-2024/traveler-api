@@ -21,7 +21,6 @@ public class Usuario {
     private String email;
 
     @Column(name = "senha",  nullable = false)
-    @JsonIgnore
     private String senha;
 
     @Column(name = "data_criacao", nullable = false)
@@ -77,6 +76,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getSenha() {
         return senha;
     }
