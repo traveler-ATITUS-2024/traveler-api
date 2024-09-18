@@ -58,6 +58,11 @@ public class Usuario implements UserDetails {
         this.dataCriacao = new Timestamp(System.currentTimeMillis());
     }
 
+    public Usuario(String nome, Long id) {
+        this.nome = nome;
+        this.id = id;
+    }
+
     public Timestamp getDataCriacao() {
         return dataCriacao;
     }

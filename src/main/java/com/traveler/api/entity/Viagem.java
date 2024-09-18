@@ -18,13 +18,12 @@ public class Viagem {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @Column(name = "nome", nullable = false)
-    private String nome;
-
-
     @OneToOne
     @JoinColumn(name = "status_id", referencedColumnName = "id_status")
     private Status status;
+
+    @Column(name = "nome", nullable = false)
+    private String nome;
 
     @Column(name = "data_ida", nullable = false)
     private Timestamp dataIda;
@@ -50,8 +49,8 @@ public class Viagem {
     public Viagem(Long id, Usuario usuario, String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
         this.id = id;
         this.usuario = usuario;
-        this.nome = nome;
         this.status = status;
+        this.nome = nome;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
         this.valorPrv = valorPrv;
@@ -59,6 +58,18 @@ public class Viagem {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public Viagem(String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+        this.status = status;
+        this.nome = nome;
+        this.dataIda = dataIda;
+        this.dataVolta = dataVolta;
+        this.valorPrv = valorPrv;
+        this.valorReal = valorReal;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
 
     public Long getId() {
         return id;
