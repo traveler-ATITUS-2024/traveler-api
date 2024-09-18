@@ -1,4 +1,142 @@
 package com.traveler.api.entity;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+@Entity
+@Table(name = "viagem")
 public class Viagem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_viagem", nullable = false)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
+    private Usuario usuario;
+
+    @Column(name = "nome", nullable = false)
+    private String nome;
+
+
+    @OneToOne
+    @JoinColumn(name = "status_id", referencedColumnName = "id_status")
+    private Status status;
+
+    @Column(name = "data_ida", nullable = false)
+    private Timestamp dataIda;
+
+    @Column(name = "data_volta")
+    private Timestamp dataVolta;
+
+    @Column(name = "valor_prv")
+    private BigDecimal valorPrv;
+
+    @Column(name = "valor_real")
+    private BigDecimal valorReal;
+
+    @Column(name = "latitude")
+    private String latitude;
+
+    @Column(name = "longitude")
+    private String longitude;
+
+    public Viagem() {
+    }
+
+    public Viagem(Long id, Usuario usuario, String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+        this.id = id;
+        this.usuario = usuario;
+        this.nome = nome;
+        this.status = status;
+        this.dataIda = dataIda;
+        this.dataVolta = dataVolta;
+        this.valorPrv = valorPrv;
+        this.valorReal = valorReal;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Timestamp getDataIda() {
+        return dataIda;
+    }
+
+    public void setDataIda(Timestamp dataIda) {
+        this.dataIda = dataIda;
+    }
+
+    public Timestamp getDataVolta() {
+        return dataVolta;
+    }
+
+    public void setDataVolta(Timestamp dataVolta) {
+        this.dataVolta = dataVolta;
+    }
+
+    public BigDecimal getValorPrv() {
+        return valorPrv;
+    }
+
+    public void setValorPrv(BigDecimal valorPrv) {
+        this.valorPrv = valorPrv;
+    }
+
+    public BigDecimal getValorReal() {
+        return valorReal;
+    }
+
+    public void setValorReal(BigDecimal valorReal) {
+        this.valorReal = valorReal;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 }
