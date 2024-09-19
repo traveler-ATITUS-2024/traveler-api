@@ -1,4 +1,9 @@
 package com.traveler.api.controller.dto;
 
-public record CriarUsuarioDto(String nome, String email, String senha) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record CriarUsuarioDto(String nome,
+                              String senha,
+                              String email) {
 }

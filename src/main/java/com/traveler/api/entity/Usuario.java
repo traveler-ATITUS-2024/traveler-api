@@ -2,6 +2,10 @@ package com.traveler.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +33,7 @@ public class Usuario implements UserDetails {
     @Column(name = "senha",  nullable = false)
     private String senha;
 
+    @Email(message = "E-mail inválido")
     @Column(name = "email",  nullable = false, unique = true)
     private String email;
 
