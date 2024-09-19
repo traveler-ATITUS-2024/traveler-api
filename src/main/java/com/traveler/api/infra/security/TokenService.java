@@ -25,9 +25,9 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("auth-api")
                     .withSubject(usuario.getNome())
-//                    .withClaim("id", usuario.getId().toString())
-//                    .withClaim("nome", usuario.getNome())
-//                    .withClaim("email", usuario.getEmail())
+                    .withClaim("id", usuario.getId().toString())
+                    .withClaim("nome", usuario.getNome())
+                    .withClaim("email", usuario.getEmail())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
 
@@ -50,7 +50,7 @@ public class TokenService {
         }
     }
 
-    // token inspira em 2 horas
+    // token inspira em 1 hora
     // colocou no timezone de brásilia para nossa localização
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
