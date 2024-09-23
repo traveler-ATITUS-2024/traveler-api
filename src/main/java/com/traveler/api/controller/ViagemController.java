@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class  ViagemController {
 
 
     @PostMapping
-    public ResponseEntity<Viagem> criarViagem(@RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<?> criarViagem(@RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
         try {
 
 //            Usuario usuario = (Usuario) usuarioRepository.findByNome(userDetails.getUsername());
@@ -34,7 +35,7 @@ public class  ViagemController {
 
             return new ResponseEntity<>(viagem, HttpStatus.CREATED);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -62,7 +63,7 @@ public class  ViagemController {
         return ResponseEntity.ok(viagens);
     }
 
-    @PutMapping("{viagemId}")
+    @PutMapping("/{viagemId}")
     public ResponseEntity<?> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
        try {
 
@@ -72,5 +73,18 @@ public class  ViagemController {
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
        }
     }
+
+    @DeleteMapping("/{viagemId}")
+    public ResponseEntity<?>deletarViagem(@PathVariable("viagemId") String viagemId) {
+        try {
+
+        viagemService.deletarViagem(viagemId);
+
+        return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 
 }

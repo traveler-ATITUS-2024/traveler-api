@@ -7,6 +7,8 @@ import com.traveler.api.entity.Viagem;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public record ViagemInputDto(
         Status status,
@@ -42,5 +44,11 @@ public record ViagemInputDto(
                 valorReal,
                 latitude,
                 longitude);
+    }
+
+    public void validarDatas() {
+        if (dataIda.after(dataVolta)) {
+            throw new IllegalArgumentException("A data de ida não pode ser maior que a volta");
+        }
     }
 }

@@ -4,9 +4,11 @@ import com.traveler.api.controller.dto.ViagemInputDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
 import com.traveler.api.repository.ViagemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,9 @@ public class ViagemService {
     private ViagemRepository viagemRepository;
 
 
-    public Viagem criarViagem(ViagemInputDto viagemInputDto, Usuario usuario) {
+    public Viagem criarViagem(ViagemInputDto viagemInputDto, Usuario usuario) throws Exception {
+
+        viagemInputDto.validarDatas();
 
         var entity = new Viagem(
                 viagemInputDto.nome(),
@@ -56,6 +60,19 @@ public class ViagemService {
         }
 
         throw new Exception("Viagem com id " + id + " não foi encontrada.");
+
+    }
+
+    public void deletarViagem(String viagemId) throws Exception {
+
+        Long id = Long.parseLong(viagemId);
+
+        if (!viagemRepository.existsById(id)) {
+            throw new Exception("Viagem com id " + id + " não existe.");
+        }
+
+        viagemRepository.deleteById(id);
+
 
     }
 }
