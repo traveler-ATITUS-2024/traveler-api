@@ -4,10 +4,12 @@ import com.traveler.api.controller.dto.CriarViagemDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
 import com.traveler.api.repository.ViagemRepository;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 public class ViagemService {
@@ -34,4 +36,9 @@ public class ViagemService {
 //        entity.setUsuario(new Usuario("xande", Integer.toUnsignedLong(1)));
         return viagemRepository.save(entity);
     }
+
+    public Optional<Viagem> buscarViagemPorId(String viagemId) {
+        return viagemRepository.findById(Integer.parseInt(viagemId));
+    }
+
 }

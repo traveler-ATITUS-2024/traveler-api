@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/viagem")
 public class  ViagemController {
@@ -34,6 +36,23 @@ public class  ViagemController {
             Viagem viagem = viagemService.criarViagem(criarViagemDto, usuario);
 
             return new ResponseEntity<>(viagem, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/{viagemId}")
+    public ResponseEntity<Viagem> buscarViagemPorId(@PathVariable("viagemId") String viagemId, @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+
+            Usuario usuario = (Usuario) usuarioRepository.findByNome(userDetails.getUsername());
+            var viagem = viagemService.buscarViagemPorId(viagemId);
+
+            if (viagem.isPresent()) {
+            return ResponseEntity.ok(viagem.get());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

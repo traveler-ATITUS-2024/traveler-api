@@ -28,6 +28,7 @@ public class TokenService {
                     .withClaim("id", usuario.getId().toString())
                     .withClaim("nome", usuario.getNome())
                     .withClaim("email", usuario.getEmail())
+                    .withClaim("data_criacao", usuario.getDataCriacao())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
 
@@ -51,7 +52,7 @@ public class TokenService {
     }
 
     // token inspira em 1 hora
-    // colocou no timezone de brásilia para nossa localização
+    // timezone de brásilia para nossa localização
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
