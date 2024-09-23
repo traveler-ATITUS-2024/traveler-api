@@ -47,12 +47,12 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            throw exception;
         }
     }
 
-    // token inspira em 1 hora
-    // timezone de brásilia para nossa localização
+    // token expira em 1 hora
+    // timezone de brasília para nossa localização
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
