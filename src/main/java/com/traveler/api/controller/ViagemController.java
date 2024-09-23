@@ -1,6 +1,6 @@
 package com.traveler.api.controller;
 
-import com.traveler.api.controller.dto.CriarViagemDto;
+import com.traveler.api.controller.dto.ViagemInputDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
 import com.traveler.api.repository.UsuarioRepository;
@@ -25,12 +25,12 @@ public class  ViagemController {
 
 
     @PostMapping
-    public ResponseEntity<Viagem> criarViagem(@RequestBody CriarViagemDto criarViagemDto, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<Viagem> criarViagem(@RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
         try {
 
 //            Usuario usuario = (Usuario) usuarioRepository.findByNome(userDetails.getUsername());
 
-            Viagem viagem = viagemService.criarViagem(criarViagemDto, usuario);
+            Viagem viagem = viagemService.criarViagem(viagemInputDto, usuario);
 
             return new ResponseEntity<>(viagem, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -60,6 +60,17 @@ public class  ViagemController {
         var viagens = viagemService.buscarViagens();
 
         return ResponseEntity.ok(viagens);
+    }
+
+    @PutMapping("{viagemId}")
+    public ResponseEntity<Viagem> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
+       try {
+
+        Viagem viagem = viagemService.alterarViagem(viagemId, viagemInputDto, usuario);
+        return ResponseEntity.ok(viagem);
+       } catch (Exception e) {
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+       }
     }
 
 }
