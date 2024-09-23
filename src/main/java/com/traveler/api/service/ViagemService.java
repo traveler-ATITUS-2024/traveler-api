@@ -55,7 +55,7 @@ public class ViagemService {
 
         }
 
-        throw new Exception("Algum erro foi encontrado");
+        throw new Exception("Viagem com id " + id + " não foi encontrada.");
 
     }
 }

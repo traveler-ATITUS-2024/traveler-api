@@ -63,13 +63,13 @@ public class  ViagemController {
     }
 
     @PutMapping("{viagemId}")
-    public ResponseEntity<Viagem> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<?> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
        try {
 
         Viagem viagem = viagemService.alterarViagem(viagemId, viagemInputDto, usuario);
         return ResponseEntity.ok(viagem);
        } catch (Exception e) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
        }
     }
 
