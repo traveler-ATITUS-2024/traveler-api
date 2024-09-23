@@ -49,6 +49,10 @@ public class ViagemService {
         return viagemRepository.findAll();
     }
 
+    public List<Viagem> buscarViagensPorUsuario(Long usuarioId) {
+        return viagemRepository.findByUsuarioId(usuarioId);
+    }
+
     public Viagem alterarViagem(String id, ViagemInputDto viagemInputDto, Usuario usuario) throws Exception {
         Long idViagem = Long.parseLong(id);
 

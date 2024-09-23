@@ -4,6 +4,7 @@ import com.traveler.api.controller.dto.ViagemInputDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
 import com.traveler.api.repository.UsuarioRepository;
+import com.traveler.api.repository.ViagemRepository;
 import com.traveler.api.service.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,8 @@ public class  ViagemController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ViagemRepository viagemRepository;
 
 
     @PostMapping
@@ -60,6 +63,12 @@ public class  ViagemController {
 
         var viagens = viagemService.buscarViagens();
 
+        return ResponseEntity.ok(viagens);
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<Viagem>> buscarViagensPorUsuario(@PathVariable("usuarioId") Long usuarioId) {
+        List<Viagem> viagens = viagemService.buscarViagensPorUsuario(usuarioId);
         return ResponseEntity.ok(viagens);
     }
 
