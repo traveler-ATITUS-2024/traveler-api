@@ -1,4 +1,55 @@
 package com.traveler.api.service;
 
+import com.traveler.api.controller.dto.DespesaInputDto;
+import com.traveler.api.entity.Categoria;
+import com.traveler.api.entity.Despesa;
+import com.traveler.api.entity.Usuario;
+import com.traveler.api.entity.Viagem;
+import com.traveler.api.repository.CategoriaRepository;
+import com.traveler.api.repository.DespesaRepository;
+import com.traveler.api.repository.ViagemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class DespesaService {
+
+    @Autowired
+    private DespesaRepository despesaRepository;
+    @Autowired
+    private ViagemRepository viagemRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    public Despesa criarDespesa(DespesaInputDto despesaInputDto)  throws Exception{
+
+        Categoria categoria = categoriaRepository.findById(despesaInputDto.categoria().getId())
+                .orElseThrow(() -> new Exception("Não foi encontrada nenhuma categoria"));
+
+        Viagem viagem = viagemRepository.findById(despesaInputDto.viagem().getId())
+                .orElseThrow(() -> new Exception("Não foi encontrada nenhuma viagem"));
+
+        Despesa despesa = new Despesa();
+        despesa.setCategoria(categoria);
+        despesa.setViagem(viagem);
+        despesa.setNome(despesaInputDto.nome());
+        despesa.setDecricao(despesaInputDto.descricao());
+        despesa.setData(new Timestamp(despesaInputDto.data().getTime()));
+        despesa.setValor(despesaInputDto.valor());
+
+        return despesaRepository.save(despesa);
+    }
+
+    public List<Despesa> buscarDespesas() {return despesaRepository.findAll();}
+
+    public Optional<Despesa> buscarDespesaPorId(String despesaId) {
+        return despesaRepository.findById(Long.parseLong(despesaId));
+    }
 }
+
+
+

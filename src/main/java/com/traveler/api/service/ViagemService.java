@@ -37,7 +37,6 @@ public class ViagemService {
 
         entity.setUsuario(usuario);
 
-//        entity.setUsuario(new Usuario("xande", Integer.toUnsignedLong(1)));
         return viagemRepository.save(entity);
     }
 
