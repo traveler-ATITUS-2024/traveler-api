@@ -39,10 +39,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDto data) {
         try {
-            var usernamePassword = new UsernamePasswordAuthenticationToken(data.nome(), data.senha());
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
-            // gerar o token para utilizar nas próximas requisições
+            // Gerar o token para utilizar nas próximas requisições
             var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
             return ResponseEntity.ok(new LoginResponseDto(token));

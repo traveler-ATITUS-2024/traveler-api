@@ -27,7 +27,7 @@ public class UsuarioService {
     public Usuario criarUsuario(CriarUsuarioDto criarUsuarioDto) {
 
         var entity = new Usuario(
-            criarUsuarioDto.nome(), criarUsuarioDto.email(), criarUsuarioDto.senha());
+                criarUsuarioDto.nome(), criarUsuarioDto.email(), criarUsuarioDto.senha());
 
 
 
@@ -41,11 +41,11 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> buscarUsuarioPorId(String usuarioId) {
-        return usuarioRepository.findById(Integer.parseInt(usuarioId) );
+        return usuarioRepository.findById(Long.parseLong(usuarioId) );
     }
 
     public void atualizarUsuario(String usuarioId, AtualizarUsuarioDto atualizarUsuarioDto) {
-        var id = Integer.parseInt(usuarioId);
+        var id = Long.parseLong(usuarioId);
         var entity = usuarioRepository.findById(id);
 
         if(entity.isPresent()) {
@@ -60,7 +60,7 @@ public class UsuarioService {
     }
 
     public void atualizarSenha(String usuarioId, AtualizarSenhaDto atualizarSenhaDto) {
-        var id = Integer.parseInt(usuarioId);
+        var id = Long.parseLong(usuarioId);
         var entity = usuarioRepository.findById(id);
 
         if(entity.isPresent()) {
@@ -75,7 +75,7 @@ public class UsuarioService {
     }
 
     public void deletarUsuario(String usuarioId) {
-        var id = Integer.parseInt(usuarioId);
+        var id = Long.parseLong(usuarioId);
 
         var usuarioExistente = usuarioRepository.findById(id);
 
