@@ -2,6 +2,10 @@ package com.traveler.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +33,7 @@ public class Usuario implements UserDetails {
     @Column(name = "senha",  nullable = false)
     private String senha;
 
+    @Email(message = "E-mail inválido")
     @Column(name = "email",  nullable = false, unique = true)
     private String email;
 
@@ -56,6 +61,11 @@ public class Usuario implements UserDetails {
         this.email = email;
         this.senha = senha;
         this.dataCriacao = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Usuario(String nome, Long id) {
+        this.nome = nome;
+        this.id = id;
     }
 
     public Timestamp getDataCriacao() {
@@ -99,36 +109,43 @@ public class Usuario implements UserDetails {
         this.senha = senha;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return senha;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return nome;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

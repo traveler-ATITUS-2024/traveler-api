@@ -8,9 +8,11 @@ import com.traveler.api.entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 
 @Service
 public class TokenService {
@@ -21,10 +23,14 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                            .withIssuer("auth-api")
-                            .withSubject(usuario.getNome())
-                            .withExpiresAt(genExpirationDate())
-                            .sign(algorithm);
+                    .withIssuer("auth-api")
+                    .withSubject(usuario.getNome())
+                    .withClaim("id", usuario.getId().toString())
+                    .withClaim("nome", usuario.getNome())
+                    .withClaim("email", usuario.getEmail())
+                    .withClaim("data_criacao", usuario.getDataCriacao())
+                    .withExpiresAt(genExpirationDate())
+                    .sign(algorithm);
 
             return token;
         } catch (JWTCreationException exception) {
@@ -41,13 +47,13 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            throw exception;
         }
     }
 
-    // token inspira em 2 horas
-    // colocou no timezone de brásilia para nossa localização
+    // token expira em 1 hora
+    // timezone de brasília para nossa localização
     private Instant genExpirationDate() {
-        return LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
 }

@@ -1,0 +1,2 @@
+ALTER TABLE viagem
+ALTER COLUMN valor_prv TYPE NUMERIC(8, 2);

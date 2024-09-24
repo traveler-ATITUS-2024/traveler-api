@@ -5,6 +5,7 @@ import com.traveler.api.controller.dto.AtualizarUsuarioDto;
 import com.traveler.api.controller.dto.CriarUsuarioDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class UsuarioController {
 
     // criar usuário novo e retornar o json com os dados
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody CriarUsuarioDto criarUsuarioDto) {
+    public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody CriarUsuarioDto criarUsuarioDto) {
 
         try {
            var usuario =  usuarioService.criarUsuario(criarUsuarioDto);
