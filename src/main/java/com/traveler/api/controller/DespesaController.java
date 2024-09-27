@@ -6,6 +6,7 @@ import com.traveler.api.entity.Usuario;
 import com.traveler.api.repository.DespesaRepository;
 import com.traveler.api.repository.UsuarioRepository;
 import com.traveler.api.service.DespesaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/despesas")
@@ -51,7 +53,7 @@ public class DespesaController {
     public ResponseEntity<Despesa> buscarDespesaPorId(@PathVariable("despesaId") String despesaId) {
         try {
 
-            var despesa = despesaService.buscarDespesaPorId(despesaId);
+            Optional<Despesa> despesa = despesaService.buscarDespesaPorId(despesaId);
 
             if (despesa.isPresent()) {
                 return ResponseEntity.ok(despesa.get());

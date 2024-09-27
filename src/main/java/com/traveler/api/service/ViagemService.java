@@ -25,7 +25,7 @@ public class ViagemService {
     private ViagemRepository viagemRepository;
 
 
-    public Viagem criarViagem(ViagemInputDto viagemInputDto, Usuario usuario) throws Exception {
+    public Viagem criarViagem(ViagemInputDto viagemInputDto, Usuario usuario) {
 
         viagemInputDto.validarDatas();
 

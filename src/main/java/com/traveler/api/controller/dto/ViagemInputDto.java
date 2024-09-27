@@ -3,6 +3,9 @@ package com.traveler.api.controller.dto;
 import com.traveler.api.entity.Status;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -11,12 +14,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public record ViagemInputDto(
-        Long statusId,
-        String nome,
-        Date dataIda,
-        Date dataVolta,
-        BigDecimal valorPrv,
-        BigDecimal valorReal,
+        @NotNull Long statusId,
+        @NotBlank String nome,
+        @NotNull Date dataIda,
+        @NotNull Date dataVolta,
+        @NotNull BigDecimal valorPrv,
+        @NotNull BigDecimal valorReal,
         String latitude,
         String longitude) {
 

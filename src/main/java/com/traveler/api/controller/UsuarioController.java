@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -29,7 +30,7 @@ public class UsuarioController {
 
     // criar usuário novo e retornar o json com os dados
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@Valid @RequestBody CriarUsuarioDto criarUsuarioDto) {
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody CriarUsuarioDto criarUsuarioDto) {
 
         try {
            var usuario =  usuarioService.criarUsuario(criarUsuarioDto);
@@ -52,7 +53,7 @@ public class UsuarioController {
     // busca um usuário específico pelo id
     @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable("usuarioId") String usuarioId) {
-        var usuario = usuarioService.buscarUsuarioPorId(usuarioId);
+        Optional<Usuario> usuario = usuarioService.buscarUsuarioPorId(usuarioId);
 
         if(usuario.isPresent()) {
             return ResponseEntity.ok(usuario.get());

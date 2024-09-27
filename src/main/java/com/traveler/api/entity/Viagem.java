@@ -11,7 +11,7 @@ public class Viagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_viagem", nullable = false)
+    @Column(name = "id_viagem")
     private Long id;
 
     @ManyToOne
@@ -21,10 +21,10 @@ public class Viagem {
     @Column(name = "status_id")
     private Long statusId;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "data_ida", nullable = false)
+    @Column(name = "data_ida")
     private Timestamp dataIda;
 
     @Column(name = "data_volta")

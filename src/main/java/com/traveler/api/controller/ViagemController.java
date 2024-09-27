@@ -8,14 +8,17 @@ import com.traveler.api.repository.UsuarioRepository;
 import com.traveler.api.repository.ViagemRepository;
 import com.traveler.api.service.DespesaService;
 import com.traveler.api.service.ViagemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/viagem")
@@ -33,23 +36,19 @@ public class  ViagemController {
 
 
     @PostMapping
-    public ResponseEntity<?> criarViagem(@RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
-        try {
-
+    public ResponseEntity<?> criarViagem(@RequestBody @Valid ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
 //            Usuario usuario = (Usuario) usuarioRepository.findByNome(userDetails.getUsername());
 
             Viagem viagem = viagemService.criarViagem(viagemInputDto, usuario);
 
             return new ResponseEntity<>(viagem, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
     }
+
 
     @GetMapping("/{viagemId}")
     public ResponseEntity<Viagem> buscarViagemPorId(@PathVariable("viagemId") String viagemId) {
         try {
-            var viagem = viagemService.buscarViagemPorId(viagemId);
+            Optional<Viagem> viagem = viagemService.buscarViagemPorId(viagemId);
 
             if (viagem.isPresent()) {
                 return ResponseEntity.ok(viagem.get());
@@ -64,7 +63,7 @@ public class  ViagemController {
 
     @GetMapping
     public ResponseEntity<List<Viagem>> buscarViagens() {
-        var viagens = viagemService.buscarViagens();
+        List<Viagem> viagens = viagemService.buscarViagens();
 
         viagens.forEach(viagem -> {
             List<Despesa> despesas = despesaService.buscarDespesasPorViagem(viagem.getId());
@@ -95,7 +94,7 @@ public class  ViagemController {
 
 
     @PutMapping("/{viagemId}")
-    public ResponseEntity<?> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<?> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody @Valid ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
         try {
             Viagem viagem = viagemService.alterarViagem(viagemId, viagemInputDto, usuario);
 
