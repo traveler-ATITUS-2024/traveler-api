@@ -35,7 +35,7 @@ public class Viagem {
     private BigDecimal valorPrv;
 
     @Column(name = "valor_real")
-    private BigDecimal valorReal;
+    private BigDecimal valorReal = BigDecimal.ZERO;
 
     @Column(name = "latitude")
     private String latitude;

@@ -8,6 +8,7 @@ import com.traveler.api.entity.Viagem;
 import com.traveler.api.repository.CategoriaRepository;
 import com.traveler.api.repository.DespesaRepository;
 import com.traveler.api.repository.ViagemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class DespesaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Transactional
     public Despesa criarDespesa(DespesaInputDto despesaInputDto)  throws Exception{
 
         Categoria categoria = categoriaRepository.findById(despesaInputDto.categoriaId())
@@ -41,7 +43,10 @@ public class DespesaService {
         despesa.setData(new Timestamp(despesaInputDto.data().getTime()));
         despesa.setValor(despesaInputDto.valor());
 
-        return despesaRepository.save(despesa);
+        Despesa saved = despesaRepository.save(despesa);
+        viagem.setValorReal(viagem.getValorReal().add(despesa.getValor()));
+        viagemRepository.save(viagem);
+        return saved;
     }
 
     public List<Despesa> buscarDespesas() {return despesaRepository.findAll();}
