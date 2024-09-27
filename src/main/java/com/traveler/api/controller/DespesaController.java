@@ -42,7 +42,7 @@ public class DespesaController {
     @GetMapping
     public ResponseEntity<List<Despesa>> buscarDespesas() {
 
-        List<Despesa>  despesas = despesaService.buscarDespesas();
+        List<Despesa> despesas = despesaService.buscarDespesas();
 
         return ResponseEntity.ok(despesas);
     }
@@ -53,7 +53,7 @@ public class DespesaController {
 
             var despesa = despesaService.buscarDespesaPorId(despesaId);
 
-            if(despesa.isPresent()) {
+            if (despesa.isPresent()) {
                 return ResponseEntity.ok(despesa.get());
             } else {
                 return ResponseEntity.notFound().build();

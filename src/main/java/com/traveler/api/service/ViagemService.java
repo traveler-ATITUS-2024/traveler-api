@@ -1,8 +1,10 @@
 package com.traveler.api.service;
 
 import com.traveler.api.controller.dto.ViagemInputDto;
+import com.traveler.api.entity.Despesa;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.entity.Viagem;
+import com.traveler.api.repository.DespesaRepository;
 import com.traveler.api.repository.ViagemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import java.util.Optional;
 
 @Service
 public class ViagemService {
+
+    @Autowired
+    private DespesaRepository despesaRepository;
 
     @Autowired
     private ViagemRepository viagemRepository;
@@ -41,8 +46,26 @@ public class ViagemService {
     }
 
     public Optional<Viagem> buscarViagemPorId(String viagemId) {
-        return viagemRepository.findById(Long.parseLong(viagemId));
+        Optional<Viagem> viagemOpt = viagemRepository.findById(Long.parseLong(viagemId));
+
+        if (viagemOpt.isPresent()) {
+            Viagem viagem = viagemOpt.get();
+
+            List<Despesa> despesas = despesaRepository.findByViagemId(viagem.getId());
+
+            double valorTotalDespesas = despesas.stream()
+                    .mapToDouble(despesa -> despesa.getValor().doubleValue())
+                    .sum();
+
+
+            viagem.setValorTotalDespesas(valorTotalDespesas);
+
+            return Optional.of(viagem);
+        } else {
+            return Optional.empty();
+        }
     }
+
 
     public List<Viagem> buscarViagens() {
         return viagemRepository.findAll();

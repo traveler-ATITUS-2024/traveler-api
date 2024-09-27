@@ -14,13 +14,11 @@ public class Despesa {
     @Column(name = "id_despesa", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_id", referencedColumnName = "id_categoria")
-    private Categoria categoria;
+    @Column(name = "categoria_id")
+    private Long categoriaId;
 
-    @ManyToOne
-    @JoinColumn(name = "viagem_id", referencedColumnName = "id_viagem")
-    private Viagem viagem;
+    @Column(name = "viagem_id")
+    private Long viagemId;
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -37,19 +35,19 @@ public class Despesa {
     public Despesa() {
     }
 
-    public Despesa(Long id, Categoria categoria, Viagem viagem, String nome, String decricao, Timestamp data, BigDecimal valor) {
+    public Despesa(Long id, Long categoriaId, Long viagemId, String nome, String decricao, Timestamp data, BigDecimal valor) {
         this.id = id;
-        this.categoria = categoria;
-        this.viagem = viagem;
+        this.categoriaId = categoriaId;
+        this.viagemId = viagemId;
         this.nome = nome;
         this.decricao = decricao;
         this.data = data;
         this.valor = valor;
     }
 
-    public Despesa(Categoria categoria, Viagem viagem, String nome, String decricao, Timestamp data, BigDecimal valor) {
-        this.categoria = categoria;
-        this.viagem = viagem;
+    public Despesa(Long categoriaId, Long viagemId, String nome, String decricao, Timestamp data, BigDecimal valor) {
+        this.categoriaId = categoriaId;
+        this.viagemId = viagemId;
         this.nome = nome;
         this.decricao = decricao;
         this.data = data;
@@ -64,20 +62,20 @@ public class Despesa {
         this.id = id;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Long getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
-    public Viagem getViagem() {
-        return viagem;
+    public Long getViagemId() {
+        return viagemId;
     }
 
-    public void setViagem(Viagem viagem) {
-        this.viagem = viagem;
+    public void setViagemId(Long viagemId) {
+        this.viagemId = viagemId;
     }
 
     public String getNome() {

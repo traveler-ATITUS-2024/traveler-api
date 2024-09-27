@@ -43,6 +43,17 @@ public class Viagem {
     @Column(name = "longitude")
     private String longitude;
 
+    @Transient
+    private double valorTotalDespesas;
+
+    public double getValorTotalDespesas() {
+        return valorTotalDespesas;
+    }
+
+    public void setValorTotalDespesas(double valorTotalDespesas) {
+        this.valorTotalDespesas = valorTotalDespesas;
+    }
+
     public Viagem() {
     }
 

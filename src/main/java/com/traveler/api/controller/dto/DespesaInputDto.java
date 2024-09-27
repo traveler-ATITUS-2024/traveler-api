@@ -8,8 +8,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public record DespesaInputDto(
-        Categoria categoria,
-        Viagem viagem,
+        Long categoriaId,
+        Long viagemId,
         String nome,
         String descricao,
         Date data,

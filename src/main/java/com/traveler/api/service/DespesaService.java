@@ -27,15 +27,15 @@ public class DespesaService {
 
     public Despesa criarDespesa(DespesaInputDto despesaInputDto)  throws Exception{
 
-        Categoria categoria = categoriaRepository.findById(despesaInputDto.categoria().getId())
+        Categoria categoria = categoriaRepository.findById(despesaInputDto.categoriaId())
                 .orElseThrow(() -> new Exception("Não foi encontrada nenhuma categoria"));
 
-        Viagem viagem = viagemRepository.findById(despesaInputDto.viagem().getId())
+        Viagem viagem = viagemRepository.findById(despesaInputDto.viagemId())
                 .orElseThrow(() -> new Exception("Não foi encontrada nenhuma viagem"));
 
         Despesa despesa = new Despesa();
-        despesa.setCategoria(categoria);
-        despesa.setViagem(viagem);
+        despesa.setCategoriaId(categoria.getId());
+        despesa.setViagemId(viagem.getId());
         despesa.setNome(despesaInputDto.nome());
         despesa.setDecricao(despesaInputDto.descricao());
         despesa.setData(new Timestamp(despesaInputDto.data().getTime()));
@@ -48,6 +48,10 @@ public class DespesaService {
 
     public Optional<Despesa> buscarDespesaPorId(String despesaId) {
         return despesaRepository.findById(Long.parseLong(despesaId));
+    }
+
+    public List<Despesa> buscarDespesasPorViagem(Long viagemId) {
+        return despesaRepository.findByViagemId(viagemId);
     }
 }
 
