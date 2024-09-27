@@ -31,7 +31,7 @@ public class ViagemService {
 
         var entity = new Viagem(
                 viagemInputDto.nome(),
-                viagemInputDto.status(),
+                viagemInputDto.statusId(),
                 new Timestamp(viagemInputDto.dataIda().getTime()),
                 new Timestamp(viagemInputDto.dataVolta().getTime()),
                 viagemInputDto.valorPrv(),

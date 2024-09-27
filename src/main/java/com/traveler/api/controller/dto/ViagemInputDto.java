@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public record ViagemInputDto(
-        Status status,
+        Long statusId,
         String nome,
         Date dataIda,
         Date dataVolta,
@@ -23,7 +23,7 @@ public record ViagemInputDto(
 
     public Viagem toViagem() {
         return new Viagem(nome,
-                status,
+                statusId,
                 new Timestamp(dataIda.getTime()),
                 new Timestamp(dataVolta.getTime()),
                 valorPrv,
@@ -37,7 +37,7 @@ public record ViagemInputDto(
                 id,
                 usuario,
                 nome,
-                status,
+                statusId,
                 new Timestamp(dataIda.getTime()),
                 new Timestamp(dataVolta.getTime()),
                 valorPrv,

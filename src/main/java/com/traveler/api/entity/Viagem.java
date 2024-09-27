@@ -18,9 +18,8 @@ public class Viagem {
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @OneToOne
-    @JoinColumn(name = "status_id", referencedColumnName = "id_status")
-    private Status status;
+    @Column(name = "status_id")
+    private Long statusId;
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -57,10 +56,10 @@ public class Viagem {
     public Viagem() {
     }
 
-    public Viagem(Long id, Usuario usuario, String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+    public Viagem(Long id, Usuario usuario, String nome, Long statusId, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
         this.id = id;
         this.usuario = usuario;
-        this.status = status;
+        this.statusId = statusId;
         this.nome = nome;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
@@ -70,8 +69,8 @@ public class Viagem {
         this.longitude = longitude;
     }
 
-    public Viagem(String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
-        this.status = status;
+    public Viagem(String nome, Long statusId, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+        this.statusId = statusId;
         this.nome = nome;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
@@ -106,12 +105,12 @@ public class Viagem {
         this.nome = nome;
     }
 
-    public Status getStatus() {
-        return status;
+    public Long getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
     }
 
     public Timestamp getDataIda() {
