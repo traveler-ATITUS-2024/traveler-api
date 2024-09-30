@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,4 +65,47 @@ public class DespesaController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/viagem/{viagemId}")
+    public ResponseEntity<List<Despesa>> buscarDespesaPorViagem(@PathVariable("viagemId") Long viagemId) {
+        List<Despesa> despesas = despesaService.buscarDespesasPorViagem(viagemId);
+
+        return ResponseEntity.ok(despesas);
+    }
+    
+    @PutMapping("/{despesaId}")
+    public ResponseEntity<?> alterarDespesa(@PathVariable("despesaId") Long despesaId, @RequestBody @Valid DespesaInputDto despesaInputDto) {
+        try {
+            Despesa despesa = despesaService.alterarDespesa(despesaId, despesaInputDto);
+
+            return ResponseEntity.ok(despesa);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{despesaId}")
+    public ResponseEntity<?> deletarDespesa(@PathVariable("despesaId") Long despesaId) {
+        try {
+
+            despesaService.deletarDespesa(despesaId);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

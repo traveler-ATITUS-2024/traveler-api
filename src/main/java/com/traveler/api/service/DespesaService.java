@@ -58,6 +58,26 @@ public class DespesaService {
     public List<Despesa> buscarDespesasPorViagem(Long viagemId) {
         return despesaRepository.findByViagemId(viagemId);
     }
+
+    public Despesa alterarDespesa(Long id, DespesaInputDto despesaInputDto) throws Exception{
+        Optional<Despesa> despesa = despesaRepository.findById(id);
+
+        if(despesa.isPresent()) {
+            return despesaRepository.save(
+                    despesaInputDto.toDespesaWithId(id)
+            );
+        }
+
+        throw new Exception("Despesa com o id " + id + " não foi encontrada.");
+    }
+
+    public void deletarDespesa(Long id) throws Exception{
+        if (!despesaRepository.existsById(id)) {
+            throw new Exception("Viagem com id " + id + " não existe.");
+        }
+
+        despesaRepository.deleteById(id);
+    }
 }
 
 
