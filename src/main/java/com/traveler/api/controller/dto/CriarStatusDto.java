@@ -1,5 +1,7 @@
 package com.traveler.api.controller.dto;
 
-public record CriarStatusDto(String status) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CriarStatusDto(@NotBlank String status) {
 
 }

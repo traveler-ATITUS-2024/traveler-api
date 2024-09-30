@@ -3,6 +3,7 @@ package com.traveler.api.controller;
 import com.traveler.api.controller.dto.CriarStatusDto;
 import com.traveler.api.entity.Status;
 import com.traveler.api.service.StatusService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class StatusController {
     private StatusService statusService;
 
     @PostMapping
-    public ResponseEntity<Status> criarStatus(@RequestBody CriarStatusDto criarStatusDto) {
+    public ResponseEntity<Status> criarStatus(@RequestBody @Valid CriarStatusDto criarStatusDto) {
         try {
             Status status  = statusService.criarStatus(criarStatusDto);
             return new ResponseEntity<>(status, HttpStatus.CREATED);
