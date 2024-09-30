@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Traveler api",
+      "Group": "Servers",
+      "Host": "$DB_HOST",
+      "Port": 5432,
+      "Username": "$DB_USERNAME",
+      "Password": "$DB_PASSWORD",
+      "MaintenanceDB": "$MAINTENANCE_DB",
+      "SSLMode": "prefer"
+    }
+  }
+}
