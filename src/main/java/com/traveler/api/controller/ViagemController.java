@@ -106,6 +106,7 @@ public class  ViagemController {
 
             return ResponseEntity.ok(viagem);
         } catch (Exception e) {
+            System.out.println("aa");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
