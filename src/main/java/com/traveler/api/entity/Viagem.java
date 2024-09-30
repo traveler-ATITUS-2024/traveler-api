@@ -11,21 +11,20 @@ public class Viagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_viagem", nullable = false)
+    @Column(name = "id_viagem")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuario")
     private Usuario usuario;
 
-    @OneToOne
-    @JoinColumn(name = "status_id", referencedColumnName = "id_status")
-    private Status status;
+    @Column(name = "status_id")
+    private Long statusId;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "data_ida", nullable = false)
+    @Column(name = "data_ida")
     private Timestamp dataIda;
 
     @Column(name = "data_volta")
@@ -35,7 +34,7 @@ public class Viagem {
     private BigDecimal valorPrv;
 
     @Column(name = "valor_real")
-    private BigDecimal valorReal;
+    private BigDecimal valorReal = BigDecimal.ZERO;
 
     @Column(name = "latitude")
     private String latitude;
@@ -43,13 +42,24 @@ public class Viagem {
     @Column(name = "longitude")
     private String longitude;
 
+    @Transient
+    private double valorTotalDespesas;
+
+    public double getValorTotalDespesas() {
+        return valorTotalDespesas;
+    }
+
+    public void setValorTotalDespesas(double valorTotalDespesas) {
+        this.valorTotalDespesas = valorTotalDespesas;
+    }
+
     public Viagem() {
     }
 
-    public Viagem(Long id, Usuario usuario, String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+    public Viagem(Long id, Usuario usuario, String nome, Long statusId, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
         this.id = id;
         this.usuario = usuario;
-        this.status = status;
+        this.statusId = statusId;
         this.nome = nome;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
@@ -59,8 +69,8 @@ public class Viagem {
         this.longitude = longitude;
     }
 
-    public Viagem(String nome, Status status, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
-        this.status = status;
+    public Viagem(String nome, Long statusId, Timestamp dataIda, Timestamp dataVolta, BigDecimal valorPrv, BigDecimal valorReal, String latitude, String longitude) {
+        this.statusId = statusId;
         this.nome = nome;
         this.dataIda = dataIda;
         this.dataVolta = dataVolta;
@@ -95,12 +105,12 @@ public class Viagem {
         this.nome = nome;
     }
 
-    public Status getStatus() {
-        return status;
+    public Long getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
     }
 
     public Timestamp getDataIda() {
