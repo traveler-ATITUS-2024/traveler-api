@@ -24,17 +24,17 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario criarUsuario(CriarUsuarioDto criarUsuarioDto) {
-
-        var entity = new Usuario(
-                criarUsuarioDto.nome(), criarUsuarioDto.email(), criarUsuarioDto.senha());
-
-
-
-        return usuarioRepository.save(entity);
-
-
-    }
+//    public Usuario criarUsuario(CriarUsuarioDto criarUsuarioDto) {
+//
+//        var entity = new Usuario(
+//                criarUsuarioDto.nome(), criarUsuarioDto.email(), criarUsuarioDto.senha());
+//
+//
+//
+//        return usuarioRepository.save(entity);
+//
+//
+//    }
 
     public List<Usuario> buscarUsuarios() {
         return usuarioRepository.findAll();

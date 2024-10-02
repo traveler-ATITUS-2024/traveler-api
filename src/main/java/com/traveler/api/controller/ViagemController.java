@@ -8,20 +8,21 @@ import com.traveler.api.repository.UsuarioRepository;
 import com.traveler.api.repository.ViagemRepository;
 import com.traveler.api.service.DespesaService;
 import com.traveler.api.service.ViagemService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/viagem")
+@Tag(name = "Viagem")
 public class  ViagemController {
 
     @Autowired
@@ -35,6 +36,7 @@ public class  ViagemController {
     private DespesaService despesaService;
 
 
+    @Operation(summary = "Criar uma nova viagem", description = "Criar uma nova viagem")
     @PostMapping
     public ResponseEntity<?> criarViagem(@RequestBody @Valid ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
 //            Usuario usuario = (Usuario) usuarioRepository.findByNome(userDetails.getUsername());
@@ -45,6 +47,7 @@ public class  ViagemController {
     }
 
 
+    @Operation(summary = "Buscar uma viagem específica", description = "Buscar uma viagem específica")
     @GetMapping("/{viagemId}")
     public ResponseEntity<Viagem> buscarViagemPorId(@PathVariable("viagemId") String viagemId) {
         try {
@@ -61,6 +64,7 @@ public class  ViagemController {
     }
 
 
+    @Operation(summary = "Buscar todas as viagens", description = "Buscar todas as viagens criadas no banco de dados")
     @GetMapping
     public ResponseEntity<List<Viagem>> buscarViagens() {
         List<Viagem> viagens = viagemService.buscarViagens();
@@ -77,6 +81,7 @@ public class  ViagemController {
     }
 
 
+    @Operation(summary = "Buscar as viagens de um usuário", description = "Buscar todas as viagens vinculadas a um usuário")
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<List<Viagem>> buscarViagensPorUsuario(@PathVariable("usuarioId") Long usuarioId) {
         List<Viagem> viagens = viagemService.buscarViagensPorUsuario(usuarioId);
@@ -93,6 +98,7 @@ public class  ViagemController {
     }
 
 
+    @Operation(summary = "Alterar uma viagem", description = "Alterar dados de uma viagem")
     @PutMapping("/{viagemId}")
     public ResponseEntity<?> alterarViagem(@PathVariable("viagemId") String viagemId, @RequestBody @Valid ViagemInputDto viagemInputDto, @AuthenticationPrincipal Usuario usuario) {
         try {
@@ -112,6 +118,7 @@ public class  ViagemController {
     }
 
 
+    @Operation(summary = "Deletar uma viagem", description = "Deletar uma viagem do banco de dados")
     @DeleteMapping("/{viagemId}")
     public ResponseEntity<?>deletarViagem(@PathVariable("viagemId") String viagemId) {
         try {

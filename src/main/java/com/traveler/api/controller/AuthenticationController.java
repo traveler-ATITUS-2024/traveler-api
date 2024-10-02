@@ -6,7 +6,8 @@ import com.traveler.api.controller.dto.RegisterDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.infra.security.TokenService;
 import com.traveler.api.repository.UsuarioRepository;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,7 +17,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +27,7 @@ import java.sql.Timestamp;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Autenticação")
 public class AuthenticationController {
 
     @Autowired
@@ -36,6 +37,7 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Operation(summary = "Realizar o login do usuário", description = "Realizar o login do usuário")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDto data) {
         try {
@@ -51,6 +53,7 @@ public class AuthenticationController {
         }
     }
 
+    @Operation(summary = "Realizar o registro de um novo usuário", description = "Realizar o registo de um novo usuário")
     @PostMapping("/registrar")
     public ResponseEntity<?> register(@RequestBody RegisterDto data, BindingResult result) {
         if (result.hasErrors()) {

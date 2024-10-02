@@ -2,16 +2,15 @@ package com.traveler.api.controller;
 
 import com.traveler.api.controller.dto.DespesaInputDto;
 import com.traveler.api.entity.Despesa;
-import com.traveler.api.entity.Usuario;
 import com.traveler.api.repository.DespesaRepository;
 import com.traveler.api.repository.UsuarioRepository;
 import com.traveler.api.service.DespesaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/despesas")
+@Tag(name = "Despesa")
 public class DespesaController {
 
     @Autowired
@@ -30,6 +30,7 @@ public class DespesaController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Operation(summary = "Criar uma despesa", description = "Criar uma nova despesa")
     @PostMapping
     public ResponseEntity<?> criarDespesa(@RequestBody DespesaInputDto despesaInputDto) {
         try {
@@ -42,6 +43,7 @@ public class DespesaController {
         }
     }
 
+    @Operation(summary = "Buscar todas as despesas", description = "Buscar todas as despesas criadas no banco de dados")
     @GetMapping
     public ResponseEntity<List<Despesa>> buscarDespesas() {
 
@@ -50,6 +52,7 @@ public class DespesaController {
         return ResponseEntity.ok(despesas);
     }
 
+    @Operation(summary = "Buscar uma despesa específica", description = "Buscar uma despesa específica")
     @GetMapping("/{despesaId}")
     public ResponseEntity<Despesa> buscarDespesaPorId(@PathVariable("despesaId") String despesaId) {
         try {
@@ -66,13 +69,15 @@ public class DespesaController {
         }
     }
 
+    @Operation(summary = "Buscar as despesas de uma viagem específica", description = "Buscar todas as despesas vinculadas a uma viagem")
     @GetMapping("/viagem/{viagemId}")
     public ResponseEntity<List<Despesa>> buscarDespesaPorViagem(@PathVariable("viagemId") Long viagemId) {
         List<Despesa> despesas = despesaService.buscarDespesasPorViagem(viagemId);
 
         return ResponseEntity.ok(despesas);
     }
-    
+
+    @Operation(summary = "Alterar uma despesa", description = "Alterar os dados de uma despesa")
     @PutMapping("/{despesaId}")
     public ResponseEntity<?> alterarDespesa(@PathVariable("despesaId") Long despesaId, @RequestBody @Valid DespesaInputDto despesaInputDto) {
         try {
@@ -84,6 +89,7 @@ public class DespesaController {
         }
     }
 
+    @Operation(summary = "Deletar uma despesa", description = "Deletar uma viagem do banco de dados")
     @DeleteMapping("/{despesaId}")
     public ResponseEntity<?> deletarDespesa(@PathVariable("despesaId") Long despesaId) {
         try {
