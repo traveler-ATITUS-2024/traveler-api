@@ -1,5 +1,6 @@
 package com.traveler.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -43,6 +44,7 @@ public class Viagem {
     private String longitude;
 
     @Transient
+    @JsonIgnore
     private double valorTotalDespesas;
 
     public double getValorTotalDespesas() {

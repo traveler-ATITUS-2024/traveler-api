@@ -74,7 +74,6 @@ public class  ViagemController {
             double valorTotalDespesas = despesas.stream()
                     .mapToDouble(despesa -> despesa.getValor().doubleValue())
                     .sum();
-            viagem.setValorTotalDespesas(valorTotalDespesas);
         });
 
         return ResponseEntity.ok(viagens);
@@ -91,7 +90,6 @@ public class  ViagemController {
             double valorTotalDespesas = despesas.stream()
                     .mapToDouble(despesa -> despesa.getValor().doubleValue())
                     .sum();
-            viagem.setValorTotalDespesas(valorTotalDespesas);
         });
 
         return ResponseEntity.ok(viagens);
@@ -108,7 +106,6 @@ public class  ViagemController {
             double valorTotalDespesas = despesas.stream()
                     .mapToDouble(despesa -> despesa.getValor().doubleValue())
                     .sum();
-            viagem.setValorTotalDespesas(valorTotalDespesas);
 
             return ResponseEntity.ok(viagem);
         } catch (Exception e) {

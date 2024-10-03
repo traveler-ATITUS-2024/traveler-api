@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +77,23 @@ public class DespesaService {
             throw new Exception("Viagem com id " + id + " não existe.");
         }
 
+        Despesa despesa = despesaRepository.findById(id)
+                .orElseThrow(() -> new Exception("Despesa com id " + id + " não encontrada."));
+
+        Long viagemId = despesa.getViagemId();
+
         despesaRepository.deleteById(id);
+
+        Viagem viagem = viagemRepository.findById(viagemId)
+                .orElseThrow(() -> new Exception("Viagem com id " + viagemId + " não encontrada."));
+
+        double novoValorReal = despesaRepository.findByViagemId(viagemId).stream()
+                .mapToDouble(d -> d.getValor().doubleValue())
+                .sum();
+
+        viagem.setValorReal(BigDecimal.valueOf(novoValorReal));
+        viagemRepository.save(viagem);
+
     }
 }
 
