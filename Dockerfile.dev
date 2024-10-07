@@ -4,5 +4,8 @@ WORKDIR /app
 
 COPY pom.xml ./
 RUN mvn dependency:go-offline
+COPY src ./src
 
-CMD ["mvn", "compile", "spring-boot:run"]
+EXPOSE 8080 5005
+ENTRYPOINT ["mvn"]
+CMD ["spring-boot:run", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]

@@ -6,6 +6,7 @@ import com.traveler.api.controller.dto.CriarUsuarioDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public class UsuarioService {
         return usuarioRepository.findById(Long.parseLong(usuarioId) );
     }
 
-    public void atualizarUsuario(String usuarioId, AtualizarUsuarioDto atualizarUsuarioDto) {
+    public void atualizarUsuario(String usuarioId, AtualizarUsuarioDto atualizarUsuarioDto) throws Exception {
         var id = Long.parseLong(usuarioId);
         var entity = usuarioRepository.findById(id);
 
@@ -56,10 +57,12 @@ public class UsuarioService {
             }
 
             usuarioRepository.save(usuario);
+        } else {
+            throw new Exception("Usuário não encontrado!");
         }
     }
 
-    public void atualizarSenha(String usuarioId, AtualizarSenhaDto atualizarSenhaDto) {
+   public void atualizarSenha(String usuarioId, AtualizarSenhaDto atualizarSenhaDto) throws Exception{
         var id = Long.parseLong(usuarioId);
         var entity = usuarioRepository.findById(id);
 
@@ -67,20 +70,25 @@ public class UsuarioService {
             var usuario = entity.get();
 
             if (atualizarSenhaDto.senha() != null) {
-                usuario.setSenha(atualizarSenhaDto.senha());
+                String encryptedPassword = new BCryptPasswordEncoder().encode(atualizarSenhaDto.senha());
+                usuario.setSenha(encryptedPassword);
             }
 
             usuarioRepository.save(usuario);
+        } else {
+            throw new Exception("Usuário não encontrado!");
         }
     }
 
-    public void deletarUsuario(String usuarioId) {
+    public void deletarUsuario(String usuarioId) throws Exception{
         var id = Long.parseLong(usuarioId);
 
         var usuarioExistente = usuarioRepository.findById(id);
 
         if (usuarioExistente.isPresent()) {
             usuarioRepository.deleteById(id);
+        } else {
+            throw new Exception("Usuário não encontrado!");
         }
     }
 }
