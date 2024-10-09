@@ -23,12 +23,15 @@ public class StatusService {
         return statusRepository.save(entity);
     }
 
-    public void deletarStatus(Long statusId) {
+    public void deletarStatus(Long statusId) throws Exception {
 
         Optional<Status> statusExistente = statusRepository.findById(statusId);
 
         if (statusExistente.isPresent()) {
             statusRepository.deleteById(statusId);
+
+        } else {
+            throw new Exception("Status não encontrado!");
         }
     }
 }

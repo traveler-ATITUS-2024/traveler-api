@@ -22,12 +22,14 @@ public class CategoriaService {
         return categoriaRepository.save(entity);
     }
 
-    public void deletarCategoria(Long categoriaId) {
+    public void deletarCategoria(Long categoriaId) throws Exception {
 
         Optional<Categoria> categoriaExistente = categoriaRepository.findById(categoriaId);
 
         if(categoriaExistente.isPresent()) {
             categoriaRepository.deleteById(categoriaId);
+        } else {
+            throw new Exception("Categoria não encontrada!");
         }
     }
 }

@@ -35,9 +35,14 @@ public class CategoriaController {
 
     @Operation(summary = "Deletar uma categoria", description = "Deletar uma categoria do banco de dados")
     @DeleteMapping("/{categoriaId}")
-    public ResponseEntity<Void> deletarCategoria(@PathVariable("categoriaId") Long categoriaId) {
+    public ResponseEntity<?> deletarCategoria(@PathVariable("categoriaId") Long categoriaId) {
+        try {
+
         categoriaService.deletarCategoria(categoriaId);
         return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

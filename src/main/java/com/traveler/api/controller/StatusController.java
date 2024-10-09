@@ -32,9 +32,14 @@ public class StatusController {
 
     @Operation(summary = "Deletar um status", description = "Deletar um status do banco de dados")
     @DeleteMapping("/{statusId}")
-    public ResponseEntity<Void> deletarStatus(@PathVariable("statusId") Long statusId) {
+    public ResponseEntity<?> deletarStatus(@PathVariable("statusId") Long statusId) {
+        try {
+
         statusService.deletarStatus(statusId);
         return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

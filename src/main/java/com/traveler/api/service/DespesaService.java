@@ -63,7 +63,12 @@ public class DespesaService {
     public Despesa alterarDespesa(Long id, DespesaInputDto despesaInputDto) throws Exception{
         Optional<Despesa> despesa = despesaRepository.findById(id);
 
+        Viagem viagem = viagemRepository.findById(despesaInputDto.viagemId())
+                .orElseThrow(() -> new Exception("Não foi encontrada nenhuma viagem"));
+
         if(despesa.isPresent()) {
+            viagem.setValorReal(viagem.getValorReal().subtract(despesa.get().getValor()));
+            viagem.setValorReal(viagem.getValorReal().add(despesaInputDto.valor()));
             return despesaRepository.save(
                     despesaInputDto.toDespesaWithId(id)
             );
@@ -72,6 +77,7 @@ public class DespesaService {
         throw new Exception("Despesa com o id " + id + " não foi encontrada.");
     }
 
+    @Transactional
     public void deletarDespesa(Long id) throws Exception{
         if (!despesaRepository.existsById(id)) {
             throw new Exception("Viagem com id " + id + " não existe.");
@@ -82,16 +88,13 @@ public class DespesaService {
 
         Long viagemId = despesa.getViagemId();
 
-        despesaRepository.deleteById(id);
-
         Viagem viagem = viagemRepository.findById(viagemId)
                 .orElseThrow(() -> new Exception("Viagem com id " + viagemId + " não encontrada."));
 
-        double novoValorReal = despesaRepository.findByViagemId(viagemId).stream()
-                .mapToDouble(d -> d.getValor().doubleValue())
-                .sum();
+        viagem.setValorReal(viagem.getValorReal().subtract(despesa.getValor()));
+        despesaRepository.deleteById(id);
 
-        viagem.setValorReal(BigDecimal.valueOf(novoValorReal));
+
         viagemRepository.save(viagem);
 
     }
