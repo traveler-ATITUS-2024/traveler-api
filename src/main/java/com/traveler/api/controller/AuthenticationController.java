@@ -1,11 +1,13 @@
 package com.traveler.api.controller;
 
 import com.traveler.api.controller.dto.AuthenticationDto;
+import com.traveler.api.controller.dto.EsqueciSenhaDto;
 import com.traveler.api.controller.dto.LoginResponseDto;
 import com.traveler.api.controller.dto.RegisterDto;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.infra.security.TokenService;
 import com.traveler.api.repository.UsuarioRepository;
+import com.traveler.api.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +35,8 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthService authService;
     @Autowired
     private UsuarioRepository repository;
     @Autowired
@@ -60,7 +65,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
 
-        if(data.senha().isBlank()) {
+        if (data.senha().isBlank()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O campo 'senha' é obrigatório");
         }
 
@@ -70,8 +75,10 @@ public class AuthenticationController {
 
 
         try {
-            if(newUser.getNome().isBlank()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O campo 'nome' é obrigatório");
-            if(newUser.getEmail().isBlank()) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O campo 'email' é obrigatório");
+            if (newUser.getNome().isBlank())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O campo 'nome' é obrigatório");
+            if (newUser.getEmail().isBlank())
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O campo 'email' é obrigatório");
 
             this.repository.save(newUser);
             return ResponseEntity.ok().body("Usuário registrado com sucesso!");
@@ -82,4 +89,18 @@ public class AuthenticationController {
         }
 
     }
+
+    @PostMapping("/esqueci-minha-senha")
+    public ResponseEntity<?> esqueciMinhaSenha(@RequestBody EsqueciSenhaDto esqueciSenhaDto) {
+        try {
+
+            authService.esqueciMinhaSenha(esqueciSenhaDto.email());
+
+
+            return null;
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
 }
