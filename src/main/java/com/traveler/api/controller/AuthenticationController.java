@@ -1,9 +1,10 @@
 package com.traveler.api.controller;
 
-import com.traveler.api.controller.dto.AuthenticationDto;
-import com.traveler.api.controller.dto.EsqueciSenhaDto;
-import com.traveler.api.controller.dto.LoginResponseDto;
-import com.traveler.api.controller.dto.RegisterDto;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.traveler.api.controller.dto.*;
 import com.traveler.api.entity.Usuario;
 import com.traveler.api.infra.security.TokenService;
 import com.traveler.api.repository.UsuarioRepository;
@@ -11,6 +12,7 @@ import com.traveler.api.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,6 +44,8 @@ public class AuthenticationController {
     private UsuarioRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Value("${api.security.token.secret}")
+    private String secret;
 
     @Operation(summary = "Realizar o login do usuário", description = "Realizar o login do usuário")
     @PostMapping("/login")
@@ -98,6 +103,47 @@ public class AuthenticationController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/redefinir-senha")
+    public ResponseEntity<?> redefinirSenha(@RequestBody RedefinirSenhaDto data) {
+        if (data.novaSenha().isBlank() || data.confirmarSenha().isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Os campos 'nova senha' e 'confirmar senha' são obrigatórios.");
+        }
+        if (!data.novaSenha().equals(data.confirmarSenha())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("As senhas não conferem");
+        }
+
+        try {
+            String token = data.token();
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(secret))
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token);
+
+            String email = decodedJWT.getSubject();
+            Usuario usuario = repository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+            }
+
+            String encryptedPassword = new BCryptPasswordEncoder().encode(data.novaSenha());
+
+            usuario.setSenha(encryptedPassword);
+            repository.save(usuario);
+
+            return ResponseEntity.ok().body("Senha redefinida com sucesso.");
+
+        } catch (JWTVerificationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido ou expirado.");
+        } catch (DataAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao acessar os dados.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
 }
