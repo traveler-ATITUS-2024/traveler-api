@@ -71,7 +71,7 @@ public class AuthService implements UserDetailsService {
         Resend resend = new Resend("re_ijCdmN6g_J3FtL77CJ1S3yfBN4SY2ULJG");
 
         CreateEmailOptions params = CreateEmailOptions.builder()
-                .from("contato@travelerbrasil.com")
+                .from("Traveler Brasil <contato@travelerbrasil.com>")
                 .to(usuario.getEmail())
                 .html(template)
                 .subject("Redefinição de senha - Traveler Brasil")
