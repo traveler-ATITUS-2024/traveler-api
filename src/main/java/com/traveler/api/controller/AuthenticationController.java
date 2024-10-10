@@ -93,11 +93,8 @@ public class AuthenticationController {
     @PostMapping("/esqueci-minha-senha")
     public ResponseEntity<?> esqueciMinhaSenha(@RequestBody EsqueciSenhaDto esqueciSenhaDto) {
         try {
-
-            authService.esqueciMinhaSenha(esqueciSenhaDto.email());
-
-
-            return null;
+            authService.esqueciMinhaSenha(esqueciSenhaDto.getEmail());
+            return ResponseEntity.ok().body("E-mail de recuperação enviado com sucesso.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
