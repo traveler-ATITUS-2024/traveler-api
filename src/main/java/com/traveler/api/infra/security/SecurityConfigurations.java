@@ -28,11 +28,13 @@ public class SecurityConfigurations {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*"); // especificar origens, ex: "http://localhost:3000"
-        configuration.addAllowedMethod("*"); // restringir métodos  (GET, POST...)
-        configuration.addAllowedHeader("*"); // restringir headers
-        configuration.setAllowCredentials(true); // permitir envio de credenciais
-
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedOrigin("https://travelerbrasil.com");
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedMethod(HttpMethod.OPTIONS.name());
+        configuration.addAllowedMethod(HttpMethod.POST.name());
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -41,7 +43,7 @@ public class SecurityConfigurations {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+        httpSecurity
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -51,8 +53,9 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return httpSecurity.build();
     }
 
 

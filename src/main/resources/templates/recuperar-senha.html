@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recuperação de Senha</title>
     <style>
         body {
@@ -25,13 +25,13 @@
 
         img {
             width: 60px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         h1 {
             color: white;
             font-size: 24px;
-            margin-bottom: 30px;
+            margin-bottom: 60px; /* Ajustado para maior espaço entre o título e o conteúdo */
         }
 
         .input-container {
@@ -39,7 +39,7 @@
         }
 
         input[type="password"] {
-            width: 100%;
+            width: 93%;
             padding: 10px;
             border-radius: 5px;
             border: none;
@@ -49,13 +49,14 @@
         }
 
         button {
-            width: 100%;
+            width: 92%;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             padding: 10px;
             font-size: 18px;
+            margin-top: 25px;
             cursor: pointer;
         }
 
@@ -69,11 +70,16 @@
             margin-top: 20px;
             display: block;
         }
+
+        .footer {
+            color: white;
+            font-size: 12px; /* Tamanho da fonte para o aviso de copyright */
+            margin-top: 30px; /* Espaçamento acima do aviso */
+        }
     </style>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-
         const token = urlParams.get("token");
     </script>
 </head>
@@ -81,7 +87,7 @@
 <div class="container">
     <h1>Recuperação de Senha</h1>
     <div class="input-container">
-        <input type="password" placeholder="Nova senha" id="novaSenha"/>
+        <input type="password" placeholder="Nova senha" id="novaSenha" />
     </div>
     <div class="input-container">
         <input
@@ -91,6 +97,9 @@
         />
     </div>
     <button type="submit">Alterar senha</button>
+    <div class="footer">
+        © 2024 Traveler Brasil. Todos os direitos reservados.
+    </div>
 </div>
 </body>
 </html>

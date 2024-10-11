@@ -61,7 +61,7 @@ public class AuthService implements UserDetailsService {
                 .withClaim("nome", usuario.getNome())
                 .withClaim("email", usuario.getEmail())
                 .withClaim("data_criacao", usuario.getDataCriacao())
-                .withExpiresAt(LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00")))
+                .withExpiresAt(LocalDateTime.now().plusMinutes(2).toInstant(ZoneOffset.of("-03:00")))
                 .sign(Algorithm.HMAC256(secret));
 
         String template = loadFileFromResources("templates/email-recuperacao-senha.html");
@@ -79,6 +79,8 @@ public class AuthService implements UserDetailsService {
 
         try {
             resend.emails().send(params);
+
+
         } catch (ResendException e) {
             e.printStackTrace();
             throw new Exception("Erro ao enviar o e-mail de recuperação.");
