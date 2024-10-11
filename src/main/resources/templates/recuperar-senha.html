@@ -31,7 +31,7 @@
         h1 {
             color: white;
             font-size: 24px;
-            margin-bottom: 60px; /* Ajustado para maior espaço entre o título e o conteúdo */
+            margin-bottom: 60px;
         }
 
         .input-container {
@@ -73,14 +73,52 @@
 
         .footer {
             color: white;
-            font-size: 12px; /* Tamanho da fonte para o aviso de copyright */
-            margin-top: 30px; /* Espaçamento acima do aviso */
+            font-size: 12px;
+            margin-top: 30px;
         }
     </style>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get("token");
+        async function alterarSenha() {
+            const novaSenha = document.getElementById("novaSenha").value;
+            const confirmarSenha = document.getElementById("confirmarSenha").value;
+
+            if (novaSenha !== confirmarSenha) {
+                alert("As senhas não conferem!");
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get("token");
+
+            const data = {
+                novaSenha: novaSenha,
+                confirmarSenha: confirmarSenha,
+                token: token,
+            };
+
+            try {
+                const response = await fetch(
+                    "https://traveler-api-n420.onrender.com/auth/redefinir-senha",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    }
+                );
+
+                if (response.ok) {
+                    alert("Senha alterada com sucesso!");
+                } else {
+                    const errorData = await response.json();
+                    alert("Erro ao alterar a senha: " + errorData.message);
+                }
+            } catch (error) {
+                alert("Erro de comunicação com o servidor: " + error.message);
+            }
+        }
     </script>
 </head>
 <body>
@@ -96,7 +134,7 @@
                 id="confirmarSenha"
         />
     </div>
-    <button type="submit">Alterar senha</button>
+    <button type="submit" onclick="alterarSenha()">Alterar senha</button>
     <div class="footer">
         © 2024 Traveler Brasil. Todos os direitos reservados.
     </div>

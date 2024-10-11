@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -120,6 +121,10 @@ public class AuthenticationController {
                     .withIssuer("auth-api")
                     .build()
                     .verify(token);
+
+            if (decodedJWT.getExpiresAt().before(new Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expirado. Solicite a redefinição de senha novamente.");
+            }
 
             String email = decodedJWT.getSubject();
             Usuario usuario = repository.findByEmail(email)

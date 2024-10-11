@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -61,7 +62,8 @@ public class AuthService implements UserDetailsService {
                 .withClaim("nome", usuario.getNome())
                 .withClaim("email", usuario.getEmail())
                 .withClaim("data_criacao", usuario.getDataCriacao())
-                .withExpiresAt(LocalDateTime.now().plusMinutes(2).toInstant(ZoneOffset.of("-03:00")))
+                .withExpiresAt(Date.from(LocalDateTime.now().plusMinutes(2)
+                        .atZone(ZoneOffset.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC256(secret));
 
         String template = loadFileFromResources("templates/email-recuperacao-senha.html");
