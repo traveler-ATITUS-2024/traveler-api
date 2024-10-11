@@ -76,9 +76,89 @@
             font-size: 12px;
             margin-top: 30px;
         }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            background-color: #0f1624;
+            padding: 40px;
+            border-radius: 10px;
+            width: 300px;
+            color: white;
+        }
+
+        .success-message img {
+            width: 100px;
+            margin-bottom: 40px;
+        }
+
+        .success-message h1 {
+            font-size: 44px;
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            display: none;
+            text-align: center;
+            background-color: #0f1624;
+            padding: 40px;
+            border-radius: 10px;
+            width: 300px;
+            color: white;
+        }
+
+        .error-message img {
+            width: 100px;
+            margin-bottom: 40px;
+        }
+
+        .error-message h1 {
+            font-size: 44px;
+            margin-bottom: 20px;
+        }
+
+        .error-message p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
     </style>
 
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get("token");
+
+        function isTokenExpired(token) {
+            if (!token) return true;
+
+            const base64Url = token.split(".")[1];
+            const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+            const jsonPayload = decodeURIComponent(
+                atob(base64)
+                    .split("")
+                    .map(function (c) {
+                        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+                    })
+                    .join("")
+            );
+
+            const { exp } = JSON.parse(jsonPayload);
+            const expired = Date.now() >= exp * 1000;
+            return expired;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            if (isTokenExpired(token)) {
+                document.querySelector(".container").style.display = "none";
+                document.querySelector(".error-message").style.display = "block";
+                return;
+            }
+        });
+
         async function alterarSenha() {
             const novaSenha = document.getElementById("novaSenha").value;
             const confirmarSenha = document.getElementById("confirmarSenha").value;
@@ -87,9 +167,6 @@
                 alert("As senhas não conferem!");
                 return;
             }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get("token");
 
             const data = {
                 novaSenha: novaSenha,
@@ -110,7 +187,11 @@
                 );
 
                 if (response.ok) {
-                    alert("Senha alterada com sucesso!");
+                    document.getElementById("novaSenha").value = "";
+                    document.getElementById("confirmarSenha").value = "";
+
+                    document.querySelector(".container").style.display = "none";
+                    document.querySelector(".success-message").style.display = "block";
                 } else {
                     const errorData = await response.json();
                     alert("Erro ao alterar a senha: " + errorData.message);
@@ -138,6 +219,24 @@
     <div class="footer">
         © 2024 Traveler Brasil. Todos os direitos reservados.
     </div>
+</div>
+
+<div class="success-message" style="display: none">
+    <img
+            src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+            alt="Sucesso"
+    />
+    <h1>Senha Alterada!</h1>
+    <p>Sua senha foi alterada com sucesso.</p>
+</div>
+
+<div class="error-message" style="display: none">
+    <img
+            src="https://cdn-icons-png.flaticon.com/512/753/753345.png"
+            alt="Erro"
+    />
+    <h1>Ooops...!</h1>
+    <p>Seu token de recuperação expirou.</p>
 </div>
 </body>
 </html>
