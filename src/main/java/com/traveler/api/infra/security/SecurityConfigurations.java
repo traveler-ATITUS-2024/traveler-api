@@ -30,6 +30,7 @@ public class SecurityConfigurations {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.addAllowedOrigin("https://travelerbrasil.com");
+        configuration.addAllowedOrigin("https://travelerbrasil.com/**");
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedMethod(HttpMethod.OPTIONS.name());
         configuration.addAllowedMethod(HttpMethod.POST.name());
