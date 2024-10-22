@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
@@ -28,13 +30,10 @@ public class SecurityConfigurations {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("https://www.travelerbrasil.com");
-        configuration.addAllowedOrigin("https://travelerbrasil.com");
-        configuration.addAllowedOrigin("https://travelerbrasil.com/**");
-        configuration.addAllowedOrigin("https://www.travelerbrasil.com/**");
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.addAllowedMethod(HttpMethod.OPTIONS.name());
         configuration.addAllowedMethod(HttpMethod.POST.name());
 
