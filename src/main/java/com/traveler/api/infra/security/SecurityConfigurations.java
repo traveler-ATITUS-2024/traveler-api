@@ -28,15 +28,15 @@ public class SecurityConfigurations {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true);
         configuration.addAllowedOrigin("https://www.travelerbrasil.com");
         configuration.addAllowedOrigin("https://travelerbrasil.com");
         configuration.addAllowedOrigin("https://travelerbrasil.com/**");
         configuration.addAllowedOrigin("https://www.travelerbrasil.com/**");
+        configuration.setAllowCredentials(true);
         configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
         configuration.addAllowedMethod(HttpMethod.OPTIONS.name());
         configuration.addAllowedMethod(HttpMethod.POST.name());
-        configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
