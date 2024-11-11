@@ -68,14 +68,17 @@ public class UsuarioService {
 
         if(entity.isPresent()) {
             var usuario = entity.get();
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-            if (atualizarSenhaDto.senha() != null) {
-                String encryptedPassword = new BCryptPasswordEncoder().encode(atualizarSenhaDto.senha());
+            if (atualizarSenhaDto.senhaAtual() != null && passwordEncoder.matches(atualizarSenhaDto.senhaAtual(), usuario.getSenha())) {
+                String encryptedPassword = passwordEncoder.encode(atualizarSenhaDto.senha());
                 usuario.setSenha(encryptedPassword);
+                usuarioRepository.save(usuario);
+            } else {
+                throw new Exception("Senha atual incorreta!");
             }
 
-            usuarioRepository.save(usuario);
-        } else {
+        }  else {
             throw new Exception("Usuário não encontrado!");
         }
     }
