@@ -7,11 +7,7 @@
 ![Flyway](https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&logoColor=white)
 
 ## Desenvolvido por
-
-![Otávio Lorenzatto](https://img.shields.io/badge/Otávio%20Lorenzatto-000000?style=for-the-badge)
-![Bernardo Sozo de Fattini](https://img.shields.io/badge/Bernardo%20Sozo%20Fattini-000000?style=for-the-badge)
 ![Gabriel Brocco de Oliveira](https://img.shields.io/badge/Gabriel%20Brocco%20de%20Oliveira-000000?style=for-the-badge)
-![Gabriel Pradegan Orsatto](https://img.shields.io/badge/Gabriel%20Pradegan%20Orsatto-000000?style=for-the-badge)
  
 ##
 
