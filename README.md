@@ -8,8 +8,9 @@
 
 ## Desenvolvido por
 ![Gabriel Brocco de Oliveira](https://img.shields.io/badge/Gabriel%20Brocco%20de%20Oliveira-000000?style=for-the-badge)
- 
-##
+
+## Testado por
+![Gabriel Pradegan Orsatto](https://img.shields.io/badge/Gabriel%20Pradegan%20Orsatto-000000?style=for-the-badge)
 
 ## Documentação da API
 
