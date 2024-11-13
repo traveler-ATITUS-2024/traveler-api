@@ -1,0 +1,11 @@
+FROM maven:3.9.9-eclipse-temurin-22 AS builder
+
+WORKDIR /app
+
+COPY pom.xml ./
+RUN mvn dependency:go-offline
+COPY src ./src
+
+EXPOSE 8080 5005
+ENTRYPOINT ["mvn"]
+CMD ["spring-boot:run", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]

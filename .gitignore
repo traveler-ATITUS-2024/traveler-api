@@ -31,4 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
 .env
+config.json
