@@ -8,11 +8,11 @@
 
 ## Desenvolvido por
 
-![](https://img.shields.io/badge/Gabriel%20Brocco%20de%20Oliveira-FF5733?style=for-the-badge)
+![Otávio Lorenzatto](https://img.shields.io/badge/Otávio%20Lorenzatto-000000?style=for-the-badge)
+![Bernardo Sozo de Fattini](https://img.shields.io/badge/Bernardo%20Sozo%20Fattini-000000?style=for-the-badge)
+![Gabriel Brocco de Oliveira](https://img.shields.io/badge/Gabriel%20Brocco%20de%20Oliveira-000000?style=for-the-badge)
+![Gabriel Pradegan Orsatto](https://img.shields.io/badge/Gabriel%20Pradegan%20Orsatto-000000?style=for-the-badge)
  
-[Linkedin](https://linkedin.com/in/gabrielbrocco) - 
-[Github](https://github.com/gaabrielbrocco)
-
 ##
 
 ## Documentação da API
