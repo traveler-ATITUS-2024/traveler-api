@@ -1,0 +1,5 @@
+ALTER TABLE Despesa DROP CONSTRAINT fk_viagem;
+
+ALTER TABLE Despesa
+ADD CONSTRAINT fk_viagem
+FOREIGN KEY (viagem_id) REFERENCES Viagem (id_viagem) ON DELETE CASCADE;
