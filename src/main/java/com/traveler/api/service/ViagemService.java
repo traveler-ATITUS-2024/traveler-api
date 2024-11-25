@@ -1,5 +1,6 @@
 package com.traveler.api.service;
 
+import com.traveler.api.controller.dto.CategoriaDespesaDto;
 import com.traveler.api.controller.dto.ViagemInputDto;
 import com.traveler.api.entity.Despesa;
 import com.traveler.api.entity.Usuario;
@@ -10,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -73,6 +75,10 @@ public class ViagemService {
 
     public List<Viagem> buscarViagensPorUsuario(Long usuarioId) {
         return viagemRepository.findByUsuarioId(usuarioId);
+    }
+
+    public List<CategoriaDespesaDto> buscarTotalDespesasPorCategorias(Long viagemId) {
+        return viagemRepository.buscarTotalDespesasPorCategorias(viagemId);
     }
 
     public Viagem alterarViagem(String id, ViagemInputDto viagemInputDto, Usuario usuario) throws Exception {

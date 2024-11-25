@@ -1,5 +1,6 @@
 package com.traveler.api.controller;
 
+import com.traveler.api.controller.dto.CategoriaDespesaDto;
 import com.traveler.api.controller.dto.ViagemInputDto;
 import com.traveler.api.entity.Despesa;
 import com.traveler.api.entity.Usuario;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,6 +95,15 @@ public class  ViagemController {
         });
 
         return ResponseEntity.ok(viagens);
+    }
+
+    @Operation(summary = "Buscar o total de despesas de uma viagem específica por categoria",
+            description = "Retorna a soma de todas as despesas de uma categoria vinculadas a uma viagem específica")
+    @GetMapping("/{viagemId}/totalDespesas")
+    public ResponseEntity<List<CategoriaDespesaDto>> buscarTotalDespesasPorCategorias(
+            @PathVariable("viagemId") Long viagemId) {
+        List<CategoriaDespesaDto> totais = viagemService.buscarTotalDespesasPorCategorias(viagemId);
+        return ResponseEntity.ok(totais);
     }
 
 
